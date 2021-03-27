@@ -1,0 +1,1217 @@
+------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\chiman\Dropbox\dev_field\econ270b\replication_ps2\112386-V1\table.log
+  log type:  text
+ opened on:  27 Mar 2021, 06:16:07
+
+. global output_table "C:\Users\chiman\Dropbox\dev_field\econ270b\replication_ps2\112386-V1"
+
+. set more 1
+
+. clear
+
+. set mem 100m
+set memory ignored.
+    Memory no longer needs to be set in modern Statas; memory adjustments are performed on the fly automatically.
+
+. set matsize 800
+
+. 
+. use data
+
+. keep if info==0
+(2,960 observations deleted)
+
+. 
+. *** III. Experimental Results
+. 
+. *TABLE 2: SUMMARY STATISTICS OF SESSIONS
+. sum econ class earning  political math verbal number qvoteresult qinitialpay qmodpay if round ==1
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+        econ |        276    .1268116    .3333663          0          1
+       class |        276    2.018116    1.106854          1          4
+     earning |        276    24.68297    2.183417      17.75       29.5
+   political |        254    2.086614     .770233          1          4
+        math |        265    725.0377    68.26862        460        800
+-------------+---------------------------------------------------------
+      verbal |        264    721.4015    60.01208        510        800
+      number |        276    37.68478    19.63499          0        100
+ qvoteresult |        276    92.02899    27.13359          0        100
+ qinitialpay |        276    .8913043    .3118224          0          1
+     qmodpay |        276    .8043478    .3974225          0          1
+
+. 
+. 
+. ** A. Results from the voting stage
+. 
+. *TABLE 3: DETERMINANTS OF VOTING
+. eststo clear
+
+. reg votemod coop_0 if round==1
+
+      Source |       SS           df       MS      Number of obs   =       276
+-------------+----------------------------------   F(1, 274)       =      8.47
+       Model |  2.05945562         1  2.05945562   Prob > F        =    0.0039
+    Residual |  66.6470661       274  .243237468   R-squared       =    0.0300
+-------------+----------------------------------   Adj R-squared   =    0.0264
+       Total |  68.7065217       275  .249841897   Root MSE        =    .49319
+
+------------------------------------------------------------------------------
+     votemod |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+      coop_0 |   .4699155   .1614949     2.91   0.004      .151987    .7878439
+       _cons |   .4481601   .0415161    10.79   0.000      .366429    .5298912
+------------------------------------------------------------------------------
+
+. eststo model1
+
+. reg votemod ocoop_0 if round==1
+
+      Source |       SS           df       MS      Number of obs   =       276
+-------------+----------------------------------   F(1, 274)       =      3.93
+       Model |  .971758249         1  .971758249   Prob > F        =    0.0484
+    Residual |  67.7347635       274  .247207166   R-squared       =    0.0141
+-------------+----------------------------------   Adj R-squared   =    0.0105
+       Total |  68.7065217       275  .249841897   Root MSE        =     .4972
+
+------------------------------------------------------------------------------
+     votemod |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+     ocoop_0 |  -.4193328      .2115    -1.98   0.048    -.8357042   -.0029614
+       _cons |   .6079671    .048377    12.57   0.000     .5127291     .703205
+------------------------------------------------------------------------------
+
+. eststo model2
+
+. reg votemod class if round==1
+
+      Source |       SS           df       MS      Number of obs   =       276
+-------------+----------------------------------   F(1, 274)       =      1.11
+       Model |  .277149891         1  .277149891   Prob > F        =    0.2931
+    Residual |  68.4293718       274  .249742233   R-squared       =    0.0040
+-------------+----------------------------------   Adj R-squared   =    0.0004
+       Total |  68.7065217       275  .249841897   Root MSE        =    .49974
+
+------------------------------------------------------------------------------
+     votemod |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       class |  -.0286814   .0272263    -1.05   0.293    -.0822808     .024918
+       _cons |   .5904911   .0626412     9.43   0.000      .467172    .7138103
+------------------------------------------------------------------------------
+
+. eststo model3
+
+. reg votemod number if round==1
+
+      Source |       SS           df       MS      Number of obs   =       276
+-------------+----------------------------------   F(1, 274)       =      4.70
+       Model |  1.15980704         1  1.15980704   Prob > F        =    0.0309
+    Residual |  67.5467147       274  .246520857   R-squared       =    0.0169
+-------------+----------------------------------   Adj R-squared   =    0.0133
+       Total |  68.7065217       275  .249841897   Root MSE        =    .49651
+
+------------------------------------------------------------------------------
+     votemod |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+      number |  -.0033075   .0015249    -2.17   0.031    -.0063094   -.0003055
+       _cons |   .6572499   .0647711    10.15   0.000     .5297376    .7847623
+------------------------------------------------------------------------------
+
+. eststo model4
+
+. reg votemod verbal if round==1
+
+      Source |       SS           df       MS      Number of obs   =       264
+-------------+----------------------------------   F(1, 262)       =      5.31
+       Model |  1.30311605         1  1.30311605   Prob > F        =    0.0220
+    Residual |  64.3180961       262  .245488916   R-squared       =    0.0199
+-------------+----------------------------------   Adj R-squared   =    0.0161
+       Total |  65.6212121       263  .249510312   Root MSE        =    .49547
+
+------------------------------------------------------------------------------
+     votemod |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+      verbal |   .0011729   .0005091     2.30   0.022     .0001705    .0021754
+       _cons |  -.3082803   .3685261    -0.84   0.404     -1.03393    .4173697
+------------------------------------------------------------------------------
+
+. eststo model5
+
+. reg votemod  math if round==1
+
+      Source |       SS           df       MS      Number of obs   =       265
+-------------+----------------------------------   F(1, 263)       =      6.76
+       Model |  1.64946077         1  1.64946077   Prob > F        =    0.0099
+    Residual |  64.1845015       263  .244047534   R-squared       =    0.0251
+-------------+----------------------------------   Adj R-squared   =    0.0213
+       Total |  65.8339623       264  .249371069   Root MSE        =    .49401
+
+------------------------------------------------------------------------------
+     votemod |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        math |   .0011578   .0004454     2.60   0.010     .0002809    .0020348
+       _cons |  -.2998538   .3243278    -0.92   0.356    -.9384634    .3387558
+------------------------------------------------------------------------------
+
+. eststo model6
+
+. reg votemod econ if round==1
+
+      Source |       SS           df       MS      Number of obs   =       276
+-------------+----------------------------------   F(1, 274)       =      0.73
+       Model |  .182040411         1  .182040411   Prob > F        =    0.3943
+    Residual |  68.5244813       274  .250089348   R-squared       =    0.0026
+-------------+----------------------------------   Adj R-squared   =   -0.0010
+       Total |  68.7065217       275  .249841897   Root MSE        =    .50009
+
+------------------------------------------------------------------------------
+     votemod |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        econ |   .0771784   .0904606     0.85   0.394    -.1009078    .2552646
+       _cons |   .5228216   .0322136    16.23   0.000      .459404    .5862392
+------------------------------------------------------------------------------
+
+. eststo model7
+
+. reg votemod political if round==1
+
+      Source |       SS           df       MS      Number of obs   =       254
+-------------+----------------------------------   F(1, 252)       =      0.01
+       Model |  .001537048         1  .001537048   Prob > F        =    0.9377
+    Residual |  63.3567307       252  .251415598   R-squared       =    0.0000
+-------------+----------------------------------   Adj R-squared   =   -0.0039
+       Total |  63.3582677       253  .250427936   Root MSE        =    .50141
+
+------------------------------------------------------------------------------
+     votemod |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+   political |   .0032001   .0409274     0.08   0.938    -.0774032    .0838033
+       _cons |   .5169447   .0910105     5.68   0.000     .3377065    .6961829
+------------------------------------------------------------------------------
+
+. eststo model8
+
+. reg votemod coop_0 ocoop_0 class number verbal math econ political if round==1
+
+      Source |       SS           df       MS      Number of obs   =       245
+-------------+----------------------------------   F(8, 236)       =      5.28
+       Model |  9.27091356         8  1.15886419   Prob > F        =    0.0000
+    Residual |  51.7494946       236   .21927752   R-squared       =    0.1519
+-------------+----------------------------------   Adj R-squared   =    0.1232
+       Total |  61.0204082       244   .25008364   Root MSE        =    .46827
+
+------------------------------------------------------------------------------
+     votemod |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+      coop_0 |   .6552177   .1697424     3.86   0.000     .3208138    .9896216
+     ocoop_0 |   -.765383    .221027    -3.46   0.001    -1.200821   -.3299451
+       class |  -.0202408   .0277065    -0.73   0.466    -.0748244    .0343428
+      number |  -.0038093   .0015656    -2.43   0.016    -.0068935   -.0007251
+      verbal |   .0006457   .0005596     1.15   0.250    -.0004568    .0017482
+        math |   .0015075   .0005067     2.98   0.003     .0005093    .0025058
+        econ |    .008244    .091207     0.09   0.928    -.1714398    .1879279
+   political |   .0328015   .0397684     0.82   0.410    -.0455449    .1111478
+       _cons |  -.9044627   .4659172    -1.94   0.053    -1.822351    .0134253
+------------------------------------------------------------------------------
+
+. eststo model9
+
+. 
+. // eststo raw_spec
+. title(Table 3: Voting determinats)
+command title is unrecognized
+r(199);
+
+end of do-file
+
+r(199);
+
+. do "c:\users\chiman\appdata\local\temp\st_stata_temp.tmp"
+
+. esttab * using "$output_table\table3.tex", title("Voting determinats") b(%9.3f) se(%9.3f) ///
+>          keep(*) stats(N r2, fmt(%12.0f %12.3f)) ///
+>         style(tex) star(* 0.10 ** 0.05 *** 0.01) ///
+>         nomtitles ///
+>         obslast number label replace nobaselevels ///
+>         nonotes
+(note: file C:\Users\chiman\Dropbox\dev_field\econ270b\replication_ps2\112386-V1\table3.tex not found)
+(output written to C:\Users\chiman\Dropbox\dev_field\econ270b\replication_ps2\112386-V1\table3.tex)
+
+. 
+end of do-file
+
+. do "c:\users\chiman\appdata\local\temp\st_stata_temp.tmp"
+
+. esttab * using "$output_table\table3.xlsx", title("Voting determinats") b(%9.3f) se(%9.3f) ///
+>          keep(*) stats(N r2, fmt(%12.0f %12.3f)) ///
+>         style(tex) star(* 0.10 ** 0.05 *** 0.01) ///
+>         nomtitles ///
+>         obslast number label replace nobaselevels ///
+>         nonotes
+(note: file C:\Users\chiman\Dropbox\dev_field\econ270b\replication_ps2\112386-V1\table3.xlsx not found)
+(output written to C:\Users\chiman\Dropbox\dev_field\econ270b\replication_ps2\112386-V1\table3.xlsx)
+
+. 
+end of do-file
+
+. help esttab
+
+. do "c:\users\chiman\appdata\local\temp\st_stata_temp.tmp"
+
+. esttab * using "$output_table\table3.xlsx", title("Voting determinats") b(%9.3f) se(%9.3f) ///
+>          keep(*) stats(N r2, fmt(%12.0f %12.3f)) ///
+>         star(* 0.10 ** 0.05 *** 0.01) ///
+>         nomtitles ///
+>         obslast number label replace nobaselevels ///
+>         nonotes
+(output written to C:\Users\chiman\Dropbox\dev_field\econ270b\replication_ps2\112386-V1\table3.xlsx)
+
+. 
+end of do-file
+
+. do "c:\users\chiman\appdata\local\temp\st_stata_temp.tmp"
+
+. // eststo raw_spec
+. esttab * using "$output_table\table3.xlsx", title("Voting determinats") b(%9.3f) se(%9.3f) ///
+>          keep(*) stats(N r2, fmt(%12.0f %12.3f)) ///
+>         star(* 0.10 ** 0.05 *** 0.01) ///
+>         style(csv) nomtitles ///
+>         obslast number label replace nobaselevels ///
+>         nonotes
+csv style not available (file estout_csv.def not found)
+r(601);
+
+end of do-file
+
+r(601);
+
+. do "c:\users\chiman\appdata\local\temp\st_stata_temp.tmp"
+
+. // eststo raw_spec
+. esttab * using "$output_table\table3.csv", title("Voting determinats") b(%9.3f) se(%9.3f) ///
+>          keep(*) stats(N r2, fmt(%12.0f %12.3f)) ///
+>         star(* 0.10 ** 0.05 *** 0.01) ///
+>         style(csv) nomtitles ///
+>         obslast number label replace nobaselevels ///
+>         nonotes
+csv style not available (file estout_csv.def not found)
+r(601);
+
+end of do-file
+
+r(601);
+
+. do "c:\users\chiman\appdata\local\temp\st_stata_temp.tmp"
+
+. // eststo raw_spec
+. 
+. esttab * using "$output_table\table3.csv", title("Voting determinats") b(%9.3f) se(%9.3f) ///
+>          keep(*) stats(N r2, fmt(%12.0f %12.3f)) ///
+>         star(* 0.10 ** 0.05 *** 0.01) ///
+>         nomtitles ///
+>         obslast number label replace nobaselevels ///
+>         nonotes
+(note: file C:\Users\chiman\Dropbox\dev_field\econ270b\replication_ps2\112386-V1\table3.csv not found)
+(output written to C:\Users\chiman\Dropbox\dev_field\econ270b\replication_ps2\112386-V1\table3.csv)
+
+. 
+end of do-file
+
+. do "c:\users\chiman\appdata\local\temp\st_stata_temp.tmp"
+
+. 
+. *TABLE 3: DETERMINANTS OF VOTING
+. eststo clear
+
+. reg votemod coop_0 if round==1, r
+
+Linear regression                               Number of obs     =        276
+                                                F(1, 274)         =       9.40
+                                                Prob > F          =     0.0024
+                                                R-squared         =     0.0300
+                                                Root MSE          =     .49319
+
+------------------------------------------------------------------------------
+             |               Robust
+     votemod |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+      coop_0 |   .4699155   .1532488     3.07   0.002     .1682208    .7716101
+       _cons |   .4481601   .0412309    10.87   0.000     .3669905    .5293297
+------------------------------------------------------------------------------
+
+. eststo model1
+
+. reg votemod ocoop_0 if round==1, r
+
+Linear regression                               Number of obs     =        276
+                                                F(1, 274)         =       3.96
+                                                Prob > F          =     0.0476
+                                                R-squared         =     0.0141
+                                                Root MSE          =      .4972
+
+------------------------------------------------------------------------------
+             |               Robust
+     votemod |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+     ocoop_0 |  -.4193328   .2106902    -1.99   0.048      -.83411   -.0045556
+       _cons |   .6079671   .0475707    12.78   0.000     .5143165    .7016176
+------------------------------------------------------------------------------
+
+. eststo model2
+
+. reg votemod class if round==1, r
+
+Linear regression                               Number of obs     =        276
+                                                F(1, 274)         =       1.10
+                                                Prob > F          =     0.2946
+                                                R-squared         =     0.0040
+                                                Root MSE          =     .49974
+
+------------------------------------------------------------------------------
+             |               Robust
+     votemod |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       class |  -.0286814   .0273141    -1.05   0.295    -.0824537    .0250908
+       _cons |   .5904911   .0626644     9.42   0.000     .4671262    .7138561
+------------------------------------------------------------------------------
+
+. eststo model3
+
+. reg votemod number if round==1, r
+
+Linear regression                               Number of obs     =        276
+                                                F(1, 274)         =       4.53
+                                                Prob > F          =     0.0342
+                                                R-squared         =     0.0169
+                                                Root MSE          =     .49651
+
+------------------------------------------------------------------------------
+             |               Robust
+     votemod |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+      number |  -.0033075   .0015537    -2.13   0.034    -.0063662   -.0002488
+       _cons |   .6572499    .065376    10.05   0.000     .5285469    .7859529
+------------------------------------------------------------------------------
+
+. eststo model4
+
+. reg votemod verbal if round==1, r
+
+Linear regression                               Number of obs     =        264
+                                                F(1, 262)         =       5.76
+                                                Prob > F          =     0.0171
+                                                R-squared         =     0.0199
+                                                Root MSE          =     .49547
+
+------------------------------------------------------------------------------
+             |               Robust
+     votemod |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+      verbal |   .0011729   .0004888     2.40   0.017     .0002104    .0021355
+       _cons |  -.3082803    .353616    -0.87   0.384    -1.004571    .3880107
+------------------------------------------------------------------------------
+
+. eststo model5
+
+. reg votemod  math if round==1, r
+
+Linear regression                               Number of obs     =        265
+                                                F(1, 263)         =       7.79
+                                                Prob > F          =     0.0056
+                                                R-squared         =     0.0251
+                                                Root MSE          =     .49401
+
+------------------------------------------------------------------------------
+             |               Robust
+     votemod |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        math |   .0011578   .0004149     2.79   0.006     .0003408    .0019749
+       _cons |  -.2998538   .3020579    -0.99   0.322    -.8946134    .2949058
+------------------------------------------------------------------------------
+
+. eststo model6
+
+. reg votemod econ if round==1, r
+
+Linear regression                               Number of obs     =        276
+                                                F(1, 274)         =       0.75
+                                                Prob > F          =     0.3875
+                                                R-squared         =     0.0026
+                                                Root MSE          =     .50009
+
+------------------------------------------------------------------------------
+             |               Robust
+     votemod |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        econ |   .0771784   .0891624     0.87   0.387     -.098352    .2527088
+       _cons |   .5228216   .0322915    16.19   0.000     .4592507    .5863925
+------------------------------------------------------------------------------
+
+. eststo model7
+
+. reg votemod political if round==1, r
+
+Linear regression                               Number of obs     =        254
+                                                F(1, 252)         =       0.01
+                                                Prob > F          =     0.9374
+                                                R-squared         =     0.0000
+                                                Root MSE          =     .50141
+
+------------------------------------------------------------------------------
+             |               Robust
+     votemod |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+   political |   .0032001    .040708     0.08   0.937    -.0769711    .0833713
+       _cons |   .5169447   .0906268     5.70   0.000     .3384622    .6954272
+------------------------------------------------------------------------------
+
+. eststo model8
+
+. reg votemod coop_0 ocoop_0 class number verbal math econ political if round==1, r
+
+Linear regression                               Number of obs     =        245
+                                                F(8, 236)         =       8.23
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.1519
+                                                Root MSE          =     .46827
+
+------------------------------------------------------------------------------
+             |               Robust
+     votemod |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+      coop_0 |   .6552177   .1533803     4.27   0.000     .3530483    .9573871
+     ocoop_0 |   -.765383   .2206606    -3.47   0.001    -1.200099   -.3306669
+       class |  -.0202408     .02744    -0.74   0.461    -.0742994    .0338178
+      number |  -.0038093   .0015415    -2.47   0.014    -.0068461   -.0007725
+      verbal |   .0006457   .0005345     1.21   0.228    -.0004073    .0016986
+        math |   .0015075   .0004818     3.13   0.002     .0005583    .0024568
+        econ |    .008244   .0813218     0.10   0.919    -.1519654    .1684534
+   political |   .0328015   .0398283     0.82   0.411    -.0456629    .1112658
+       _cons |  -.9044627   .4088189    -2.21   0.028    -1.709863   -.0990621
+------------------------------------------------------------------------------
+
+. eststo model9
+
+. 
+. // eststo raw_spec
+. esttab * using "$output_table\table3_robust.csv", title("Voting determinats") b(%9.3f) se(%9.3f) ///
+>          keep(*) stats(N r2, fmt(%12.0f %12.3f)) ///
+>         star(* 0.10 ** 0.05 *** 0.01) ///
+>         nomtitles ///
+>         obslast number label replace nobaselevels ///
+>         nonotes
+(note: file C:\Users\chiman\Dropbox\dev_field\econ270b\replication_ps2\112386-V1\table3_robust.csv not found)
+(output written to C:\Users\chiman\Dropbox\dev_field\econ270b\replication_ps2\112386-V1\table3_robust.csv)
+
+. 
+end of do-file
+
+. do "c:\users\chiman\appdata\local\temp\st_stata_temp.tmp"
+
+. use data, clear
+
+. gen groupmodc=coop if votestage==1
+(6,880 missing values generated)
+
+. gen groupnotc=coop if votestage==2
+(6,880 missing values generated)
+
+. gen compmodc=coop if votestage==3
+(4,640 missing values generated)
+
+. gen compnotc=coop if votestage==4
+(7,040 missing values generated)
+
+. 
+. collapse groupmodc groupnotc compmodc compnotc if info==0, by (round votemod)
+
+. 
+. *graph by treatment
+. twoway (line groupmodc round if votemod==0, title(Did not vote for modification) graphregion(color(white)) xline(10.5) xtitle("Round") xscale(
+> range(1 20)) xlabel(#20) ytitle("Cooperation") yscale(range(0 1)) ylabel(#6) scale(.6) ) (line groupnotc round if votemod==0, lpattern(dot)) (
+> line compmodc round if votemod==0, lpattern(dash)) (line compnotc round if votemod==0, lpattern(dash_dot) legend(label(1 "EndoMod") label(2 "E
+> ndoNot") label(3 "ExoMod") label(4 "ExoNot"))) , saving(graphvm0,replace)
+(note: file graphvm0.gph not found)
+(file graphvm0.gph saved)
+
+. twoway (line groupmodc round if votemod==1, title(Voted for modification) graphregion(color(white)) xline(10.5) xtitle("Round") xscale(range(1
+>  20)) xlabel(#20) ytitle("Cooperation") yscale(range(0 1)) ylabel(#6) scale(.6) ) (line groupnotc round if votemod==1, lpattern(dot)) (line co
+> mpmodc round if votemod==1, lpattern(dash)) (line compnotc round if votemod==1, lpattern(dash_dot) legend(label(1 "EndoMod") label(2 "EndoNot"
+> ) label(3 "ExoMod") label(4 "ExoNot"))) , saving(graphvm1,replace)
+(note: file graphvm1.gph not found)
+(file graphvm1.gph saved)
+
+. 
+. graph combine "graphvm1" "graphvm0" , graphregion(color(white)) saving(graphvs,replace)
+(note: file graphvs.gph not found)
+(file graphvs.gph saved)
+
+. 
+end of do-file
+
+. do "c:\users\chiman\appdata\local\temp\st_stata_temp.tmp"
+
+. graph export graph3.pdf, replace
+(file graph3.pdf written in PDF format)
+
+. 
+end of do-file
+
+. do "c:\users\chiman\appdata\local\temp\st_stata_temp.tmp"
+
+. clear
+
+. set more off
+
+. set mem 100m
+set memory ignored.
+    Memory no longer needs to be set in modern Statas; memory adjustments are performed on the fly automatically.
+
+. set matsize 800
+
+. 
+. use data
+
+. keep if info==0
+(2,960 observations deleted)
+
+. cd "C:\Users\chiman\Dropbox\dev_field\econ270b\replication_ps2\112386-V1"
+C:\Users\chiman\Dropbox\dev_field\econ270b\replication_ps2\112386-V1
+
+. 
+. *** III. Experimental Results
+. 
+. *TABLE 2: SUMMARY STATISTICS OF SESSIONS
+. sum econ class earning  political math verbal number qvoteresult qinitialpay qmodpay if round ==1
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+        econ |        276    .1268116    .3333663          0          1
+       class |        276    2.018116    1.106854          1          4
+     earning |        276    24.68297    2.183417      17.75       29.5
+   political |        254    2.086614     .770233          1          4
+        math |        265    725.0377    68.26862        460        800
+-------------+---------------------------------------------------------
+      verbal |        264    721.4015    60.01208        510        800
+      number |        276    37.68478    19.63499          0        100
+ qvoteresult |        276    92.02899    27.13359          0        100
+ qinitialpay |        276    .8913043    .3118224          0          1
+     qmodpay |        276    .8043478    .3974225          0          1
+
+. 
+. 
+end of do-file
+
+. do "c:\users\chiman\appdata\local\temp\st_stata_temp.tmp"
+
+. 
+. *TABLE 3: DETERMINANTS OF VOTING
+. eststo clear
+
+. reg votemod coop_0 if round==1
+
+      Source |       SS           df       MS      Number of obs   =       276
+-------------+----------------------------------   F(1, 274)       =      8.47
+       Model |  2.05945562         1  2.05945562   Prob > F        =    0.0039
+    Residual |  66.6470661       274  .243237468   R-squared       =    0.0300
+-------------+----------------------------------   Adj R-squared   =    0.0264
+       Total |  68.7065217       275  .249841897   Root MSE        =    .49319
+
+------------------------------------------------------------------------------
+     votemod |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+      coop_0 |   .4699155   .1614949     2.91   0.004      .151987    .7878439
+       _cons |   .4481601   .0415161    10.79   0.000      .366429    .5298912
+------------------------------------------------------------------------------
+
+. eststo model1
+
+. reg votemod ocoop_0 if round==1
+
+      Source |       SS           df       MS      Number of obs   =       276
+-------------+----------------------------------   F(1, 274)       =      3.93
+       Model |  .971758249         1  .971758249   Prob > F        =    0.0484
+    Residual |  67.7347635       274  .247207166   R-squared       =    0.0141
+-------------+----------------------------------   Adj R-squared   =    0.0105
+       Total |  68.7065217       275  .249841897   Root MSE        =     .4972
+
+------------------------------------------------------------------------------
+     votemod |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+     ocoop_0 |  -.4193328      .2115    -1.98   0.048    -.8357042   -.0029614
+       _cons |   .6079671    .048377    12.57   0.000     .5127291     .703205
+------------------------------------------------------------------------------
+
+. eststo model2
+
+. reg votemod class if round==1
+
+      Source |       SS           df       MS      Number of obs   =       276
+-------------+----------------------------------   F(1, 274)       =      1.11
+       Model |  .277149891         1  .277149891   Prob > F        =    0.2931
+    Residual |  68.4293718       274  .249742233   R-squared       =    0.0040
+-------------+----------------------------------   Adj R-squared   =    0.0004
+       Total |  68.7065217       275  .249841897   Root MSE        =    .49974
+
+------------------------------------------------------------------------------
+     votemod |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       class |  -.0286814   .0272263    -1.05   0.293    -.0822808     .024918
+       _cons |   .5904911   .0626412     9.43   0.000      .467172    .7138103
+------------------------------------------------------------------------------
+
+. eststo model3
+
+. reg votemod number if round==1
+
+      Source |       SS           df       MS      Number of obs   =       276
+-------------+----------------------------------   F(1, 274)       =      4.70
+       Model |  1.15980704         1  1.15980704   Prob > F        =    0.0309
+    Residual |  67.5467147       274  .246520857   R-squared       =    0.0169
+-------------+----------------------------------   Adj R-squared   =    0.0133
+       Total |  68.7065217       275  .249841897   Root MSE        =    .49651
+
+------------------------------------------------------------------------------
+     votemod |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+      number |  -.0033075   .0015249    -2.17   0.031    -.0063094   -.0003055
+       _cons |   .6572499   .0647711    10.15   0.000     .5297376    .7847623
+------------------------------------------------------------------------------
+
+. eststo model4
+
+. reg votemod verbal if round==1
+
+      Source |       SS           df       MS      Number of obs   =       264
+-------------+----------------------------------   F(1, 262)       =      5.31
+       Model |  1.30311605         1  1.30311605   Prob > F        =    0.0220
+    Residual |  64.3180961       262  .245488916   R-squared       =    0.0199
+-------------+----------------------------------   Adj R-squared   =    0.0161
+       Total |  65.6212121       263  .249510312   Root MSE        =    .49547
+
+------------------------------------------------------------------------------
+     votemod |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+      verbal |   .0011729   .0005091     2.30   0.022     .0001705    .0021754
+       _cons |  -.3082803   .3685261    -0.84   0.404     -1.03393    .4173697
+------------------------------------------------------------------------------
+
+. eststo model5
+
+. reg votemod  math if round==1
+
+      Source |       SS           df       MS      Number of obs   =       265
+-------------+----------------------------------   F(1, 263)       =      6.76
+       Model |  1.64946077         1  1.64946077   Prob > F        =    0.0099
+    Residual |  64.1845015       263  .244047534   R-squared       =    0.0251
+-------------+----------------------------------   Adj R-squared   =    0.0213
+       Total |  65.8339623       264  .249371069   Root MSE        =    .49401
+
+------------------------------------------------------------------------------
+     votemod |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        math |   .0011578   .0004454     2.60   0.010     .0002809    .0020348
+       _cons |  -.2998538   .3243278    -0.92   0.356    -.9384634    .3387558
+------------------------------------------------------------------------------
+
+. eststo model6
+
+. reg votemod econ if round==1
+
+      Source |       SS           df       MS      Number of obs   =       276
+-------------+----------------------------------   F(1, 274)       =      0.73
+       Model |  .182040411         1  .182040411   Prob > F        =    0.3943
+    Residual |  68.5244813       274  .250089348   R-squared       =    0.0026
+-------------+----------------------------------   Adj R-squared   =   -0.0010
+       Total |  68.7065217       275  .249841897   Root MSE        =    .50009
+
+------------------------------------------------------------------------------
+     votemod |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        econ |   .0771784   .0904606     0.85   0.394    -.1009078    .2552646
+       _cons |   .5228216   .0322136    16.23   0.000      .459404    .5862392
+------------------------------------------------------------------------------
+
+. eststo model7
+
+. reg votemod political if round==1
+
+      Source |       SS           df       MS      Number of obs   =       254
+-------------+----------------------------------   F(1, 252)       =      0.01
+       Model |  .001537048         1  .001537048   Prob > F        =    0.9377
+    Residual |  63.3567307       252  .251415598   R-squared       =    0.0000
+-------------+----------------------------------   Adj R-squared   =   -0.0039
+       Total |  63.3582677       253  .250427936   Root MSE        =    .50141
+
+------------------------------------------------------------------------------
+     votemod |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+   political |   .0032001   .0409274     0.08   0.938    -.0774032    .0838033
+       _cons |   .5169447   .0910105     5.68   0.000     .3377065    .6961829
+------------------------------------------------------------------------------
+
+. eststo model8
+
+. reg votemod coop_0 ocoop_0 class number verbal math econ political if round==1
+
+      Source |       SS           df       MS      Number of obs   =       245
+-------------+----------------------------------   F(8, 236)       =      5.28
+       Model |  9.27091356         8  1.15886419   Prob > F        =    0.0000
+    Residual |  51.7494946       236   .21927752   R-squared       =    0.1519
+-------------+----------------------------------   Adj R-squared   =    0.1232
+       Total |  61.0204082       244   .25008364   Root MSE        =    .46827
+
+------------------------------------------------------------------------------
+     votemod |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+      coop_0 |   .6552177   .1697424     3.86   0.000     .3208138    .9896216
+     ocoop_0 |   -.765383    .221027    -3.46   0.001    -1.200821   -.3299451
+       class |  -.0202408   .0277065    -0.73   0.466    -.0748244    .0343428
+      number |  -.0038093   .0015656    -2.43   0.016    -.0068935   -.0007251
+      verbal |   .0006457   .0005596     1.15   0.250    -.0004568    .0017482
+        math |   .0015075   .0005067     2.98   0.003     .0005093    .0025058
+        econ |    .008244    .091207     0.09   0.928    -.1714398    .1879279
+   political |   .0328015   .0397684     0.82   0.410    -.0455449    .1111478
+       _cons |  -.9044627   .4659172    -1.94   0.053    -1.822351    .0134253
+------------------------------------------------------------------------------
+
+. eststo model9
+
+. 
+. // eststo raw_spec
+. esttab * using "table3.csv", title("Voting determinats") b(%9.3f) se(%9.3f) ///
+>          keep(*) stats(N r2, fmt(%12.0f %12.3f)) ///
+>         star(* 0.10 ** 0.05 *** 0.01) ///
+>         nomtitles ///
+>         obslast number label replace nobaselevels ///
+>         nonotes
+(output written to table3.csv)
+
+. 
+. *TABLE 3: DETERMINANTS OF VOTING (ROBUST)
+. eststo clear
+
+. reg votemod coop_0 if round==1, r
+
+Linear regression                               Number of obs     =        276
+                                                F(1, 274)         =       9.40
+                                                Prob > F          =     0.0024
+                                                R-squared         =     0.0300
+                                                Root MSE          =     .49319
+
+------------------------------------------------------------------------------
+             |               Robust
+     votemod |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+      coop_0 |   .4699155   .1532488     3.07   0.002     .1682208    .7716101
+       _cons |   .4481601   .0412309    10.87   0.000     .3669905    .5293297
+------------------------------------------------------------------------------
+
+. eststo model1
+
+. reg votemod ocoop_0 if round==1, r
+
+Linear regression                               Number of obs     =        276
+                                                F(1, 274)         =       3.96
+                                                Prob > F          =     0.0476
+                                                R-squared         =     0.0141
+                                                Root MSE          =      .4972
+
+------------------------------------------------------------------------------
+             |               Robust
+     votemod |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+     ocoop_0 |  -.4193328   .2106902    -1.99   0.048      -.83411   -.0045556
+       _cons |   .6079671   .0475707    12.78   0.000     .5143165    .7016176
+------------------------------------------------------------------------------
+
+. eststo model2
+
+. reg votemod class if round==1, r
+
+Linear regression                               Number of obs     =        276
+                                                F(1, 274)         =       1.10
+                                                Prob > F          =     0.2946
+                                                R-squared         =     0.0040
+                                                Root MSE          =     .49974
+
+------------------------------------------------------------------------------
+             |               Robust
+     votemod |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       class |  -.0286814   .0273141    -1.05   0.295    -.0824537    .0250908
+       _cons |   .5904911   .0626644     9.42   0.000     .4671262    .7138561
+------------------------------------------------------------------------------
+
+. eststo model3
+
+. reg votemod number if round==1, r
+
+Linear regression                               Number of obs     =        276
+                                                F(1, 274)         =       4.53
+                                                Prob > F          =     0.0342
+                                                R-squared         =     0.0169
+                                                Root MSE          =     .49651
+
+------------------------------------------------------------------------------
+             |               Robust
+     votemod |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+      number |  -.0033075   .0015537    -2.13   0.034    -.0063662   -.0002488
+       _cons |   .6572499    .065376    10.05   0.000     .5285469    .7859529
+------------------------------------------------------------------------------
+
+. eststo model4
+
+. reg votemod verbal if round==1, r
+
+Linear regression                               Number of obs     =        264
+                                                F(1, 262)         =       5.76
+                                                Prob > F          =     0.0171
+                                                R-squared         =     0.0199
+                                                Root MSE          =     .49547
+
+------------------------------------------------------------------------------
+             |               Robust
+     votemod |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+      verbal |   .0011729   .0004888     2.40   0.017     .0002104    .0021355
+       _cons |  -.3082803    .353616    -0.87   0.384    -1.004571    .3880107
+------------------------------------------------------------------------------
+
+. eststo model5
+
+. reg votemod  math if round==1, r
+
+Linear regression                               Number of obs     =        265
+                                                F(1, 263)         =       7.79
+                                                Prob > F          =     0.0056
+                                                R-squared         =     0.0251
+                                                Root MSE          =     .49401
+
+------------------------------------------------------------------------------
+             |               Robust
+     votemod |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        math |   .0011578   .0004149     2.79   0.006     .0003408    .0019749
+       _cons |  -.2998538   .3020579    -0.99   0.322    -.8946134    .2949058
+------------------------------------------------------------------------------
+
+. eststo model6
+
+. reg votemod econ if round==1, r
+
+Linear regression                               Number of obs     =        276
+                                                F(1, 274)         =       0.75
+                                                Prob > F          =     0.3875
+                                                R-squared         =     0.0026
+                                                Root MSE          =     .50009
+
+------------------------------------------------------------------------------
+             |               Robust
+     votemod |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        econ |   .0771784   .0891624     0.87   0.387     -.098352    .2527088
+       _cons |   .5228216   .0322915    16.19   0.000     .4592507    .5863925
+------------------------------------------------------------------------------
+
+. eststo model7
+
+. reg votemod political if round==1, r
+
+Linear regression                               Number of obs     =        254
+                                                F(1, 252)         =       0.01
+                                                Prob > F          =     0.9374
+                                                R-squared         =     0.0000
+                                                Root MSE          =     .50141
+
+------------------------------------------------------------------------------
+             |               Robust
+     votemod |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+   political |   .0032001    .040708     0.08   0.937    -.0769711    .0833713
+       _cons |   .5169447   .0906268     5.70   0.000     .3384622    .6954272
+------------------------------------------------------------------------------
+
+. eststo model8
+
+. reg votemod coop_0 ocoop_0 class number verbal math econ political if round==1, r
+
+Linear regression                               Number of obs     =        245
+                                                F(8, 236)         =       8.23
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.1519
+                                                Root MSE          =     .46827
+
+------------------------------------------------------------------------------
+             |               Robust
+     votemod |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+      coop_0 |   .6552177   .1533803     4.27   0.000     .3530483    .9573871
+     ocoop_0 |   -.765383   .2206606    -3.47   0.001    -1.200099   -.3306669
+       class |  -.0202408     .02744    -0.74   0.461    -.0742994    .0338178
+      number |  -.0038093   .0015415    -2.47   0.014    -.0068461   -.0007725
+      verbal |   .0006457   .0005345     1.21   0.228    -.0004073    .0016986
+        math |   .0015075   .0004818     3.13   0.002     .0005583    .0024568
+        econ |    .008244   .0813218     0.10   0.919    -.1519654    .1684534
+   political |   .0328015   .0398283     0.82   0.411    -.0456629    .1112658
+       _cons |  -.9044627   .4088189    -2.21   0.028    -1.709863   -.0990621
+------------------------------------------------------------------------------
+
+. eststo model9
+
+. 
+. // eststo raw_spec
+. esttab * using "table3_robust.csv", title("Voting determinats") b(%9.3f) se(%9.3f) ///
+>          keep(*) stats(N r2, fmt(%12.0f %12.3f)) ///
+>         star(* 0.10 ** 0.05 *** 0.01) ///
+>         nomtitles ///
+>         obslast number label replace nobaselevels ///
+>         nonotes
+(output written to table3_robust.csv)
+
+. 
+end of do-file
+
+. do "c:\users\chiman\appdata\local\temp\st_stata_temp.tmp"
+
+. 
+. *TABLE 4: THE EFFECT OF DEMOCRACY -INDIVIDUAL LEVEL DATA
+. use data, clear
+
+. keep if info==0
+(2,960 observations deleted)
+
+. keep if inrange(round,10,11)
+(4,968 observations deleted)
+
+. keep votemod votestage id coop round
+
+. 
+. *Panel A
+. table votemod votestage if round==11, c(count id)
+
+--------------------------------------------------
+          |               votestage               
+  votemod | GroupMod  GroupNOT   CompMod   CompNot
+----------+---------------------------------------
+       No |       17        55        31        26
+      Yes |       55        25        33        34
+--------------------------------------------------
+
+. 
+. // row total; 129, 147
+. table votemod if round==11, c(count id)
+
+----------------------
+  votemod |      N(id)
+----------+-----------
+       No |        129
+      Yes |        147
+----------------------
+
+. 
+. // column total; 72, 80, 64, 60
+. table votestage if round==11, c(count id)
+
+----------------------
+votestage |      N(id)
+----------+-----------
+ GroupMod |         72
+ GroupNOT |         80
+  CompMod |         64
+  CompNot |         60
+----------------------
+
+. 
+. *Panel B
+. table votemod votestage if round==10 , c(mean coop)
+
+--------------------------------------------------
+          |               votestage               
+  votemod | GroupMod  GroupNOT   CompMod   CompNot
+----------+---------------------------------------
+       No | .0588235  .0363636  .0967742  .1153846
+      Yes | .0545455       .04  .0909091  .0882353
+--------------------------------------------------
+
+. table votestage if round==10 , c(mean coop)
+
+----------------------
+votestage | mean(coop)
+----------+-----------
+ GroupMod |   .0555556
+ GroupNOT |      .0375
+  CompMod |     .09375
+  CompNot |         .1
+----------------------
+
+. *Panel C
+. table votemod votestage if round==11, c(mean coop)
+
+--------------------------------------------------
+          |               votestage               
+  votemod | GroupMod  GroupNOT   CompMod   CompNot
+----------+---------------------------------------
+       No | .4117647  .1454545  .4193548  .0384615
+      Yes | .8181818       .24  .5757576  .2352941
+--------------------------------------------------
+
+. table votestage if round==11, c(mean coop)
+
+----------------------
+votestage | mean(coop)
+----------+-----------
+ GroupMod |   .7222222
+ GroupNOT |       .175
+  CompMod |         .5
+  CompNot |        .15
+----------------------
+
+. 
+end of do-file
+
+. help sum
+
+. do "c:\users\chiman\appdata\local\temp\st_stata_temp.tmp"
+
+. estpost sum econ class earning  political math verbal number qvoteresult qinitialpay qmodpay if round ==1
+variable econ not found
+r(111);
+
+end of do-file
+
+r(111);
+
+. do "c:\users\chiman\appdata\local\temp\st_stata_temp.tmp"
+
+. clear
+
+. set more off
+
+. set mem 100m
+set memory ignored.
+    Memory no longer needs to be set in modern Statas; memory adjustments are performed on the fly automatically.
+
+. set matsize 800
+
+. 
+. use data
+
+. keep if info==0
+(2,960 observations deleted)
+
+. cd "C:\Users\chiman\Dropbox\dev_field\econ270b\replication_ps2\112386-V1"
+C:\Users\chiman\Dropbox\dev_field\econ270b\replication_ps2\112386-V1
+
+. 
+. *** III. Experimental Results
+. 
+. *TABLE 2: SUMMARY STATISTICS OF SESSIONS
+. estpost sum econ class earning  political math verbal number qvoteresult qinitialpay qmodpay if round ==1
+
+             |  e(count)   e(sum_w)    e(mean)     e(Var)      e(sd)     e(min)     e(max)     e(sum) 
+-------------+----------------------------------------------------------------------------------------
+        econ |       276        276   .1268116   .1111331   .3333663          0          1         35 
+       class |       276        276   2.018116   1.225125   1.106854          1          4        557 
+     earning |       276        276   24.68297   4.767309   2.183417      17.75       29.5     6812.5 
+   political |       254        254   2.086614   .5932588    .770233          1          4        530 
+        math |       265        265   725.0377   4660.605   68.26862        460        800     192135 
+      verbal |       264        264   721.4015    3601.45   60.01208        510        800     190450 
+      number |       276        276   37.68478    385.533   19.63499          0        100      10401 
+ qvoteresult |       276        276   92.02899   736.2319   27.13359          0        100      25400 
+ qinitialpay |       276        276   .8913043   .0972332   .3118224          0          1        246 
+     qmodpay |       276        276   .8043478   .1579447   .3974225          0          1        222 
+
+. esttab, cells("count mean sd min max")
+(tabulating estimates stored by eststo; specify "." to tabulate the active results)
+
+{hline 597}
+                      (1)                                                              (2)                                                      
+>         (3)                                                              (4)                                                              (5) 
+>                                                              (6)                                                              (7)             
+>                                                  (8)                                                              (9)                         
+>                            
+                  votemod                                                          votemod                                                      
+>     votemod                                                          votemod                                                          votemod 
+>                                                          votemod                                                          votemod             
+>                                              votemod                                                          votemod                         
+>                            
+                    count         mean           sd          min          max        count         mean           sd          min          max  
+>       count         mean           sd          min          max        count         mean           sd          min          max        count 
+>         mean           sd          min          max        count         mean           sd          min          max        count         mean
+>            sd          min          max        count         mean           sd          min          max        count         mean           s
+> d          min          max
+{hline 597}
+{hline 597}
+N                     276                                                              276                                                      
+>         276                                                              276                                                              264 
+>                                                              265                                                              276             
+>                                                  254                                                              245                         
+>                            
+{hline 597}
+
+. 
+. 
+. 
+end of do-file
+
+. .
+
+. help estpost
+
+. do "c:\users\chiman\appdata\local\temp\st_stata_temp.tmp"
+
+. estpost sum econ class earning  political math verbal number qvoteresult qinitialpay qmodpay if round ==1
+
+             |  e(count)   e(sum_w)    e(mean)     e(Var)      e(sd)     e(min)     e(max)     e(sum) 
+-------------+----------------------------------------------------------------------------------------
+        econ |       276        276   .1268116   .1111331   .3333663          0          1         35 
+       class |       276        276   2.018116   1.225125   1.106854          1          4        557 
+     earning |       276        276   24.68297   4.767309   2.183417      17.75       29.5     6812.5 
+   political |       254        254   2.086614   .5932588    .770233          1          4        530 
+        math |       265        265   725.0377   4660.605   68.26862        460        800     192135 
+      verbal |       264        264   721.4015    3601.45   60.01208        510        800     190450 
+      number |       276        276   37.68478    385.533   19.63499          0        100      10401 
+ qvoteresult |       276        276   92.02899   736.2319   27.13359          0        100      25400 
+ qinitialpay |       276        276   .8913043   .0972332   .3118224          0          1        246 
+     qmodpay |       276        276   .8043478   .1579447   .3974225          0          1        222 
+
+. esttab ., cells("count mean sd min max")
+
+-----------------------------------------------------------------------------
+                      (1)                                                    
+                                                                             
+                    count         mean           sd          min          max
+-----------------------------------------------------------------------------
+econ                  276     .1268116     .3333663            0            1
+class                 276     2.018116     1.106854            1            4
+earning               276     24.68297     2.183417        17.75         29.5
+political             254     2.086614      .770233            1            4
+math                  265     725.0377     68.26862          460          800
+verbal                264     721.4015     60.01208          510          800
+number                276     37.68478     19.63499            0          100
+qvoteresult           276     92.02899     27.13359            0          100
+qinitialpay           276     .8913043     .3118224            0            1
+qmodpay               276     .8043478     .3974225            0            1
+-----------------------------------------------------------------------------
+N                     276                                                    
+-----------------------------------------------------------------------------
+
+. 
+end of do-file
+
+. help esttab
+
+. do "c:\users\chiman\appdata\local\temp\st_stata_temp.tmp"
+
+. esttab . using "table2.csv", cells("count mean sd min max")
+(output written to table2.csv)
+
+. 
+end of do-file
+
+. help outreg
+
